@@ -18,7 +18,9 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(path: "../swift-source-primitives")
+        .package(path: "../swift-source-primitives"),
+        // SDG(wraps): diagnostics wrap error concepts for structured reporting
+        // .package(path: "../swift-error-primitives"),
     ],
     targets: [
         .target(
