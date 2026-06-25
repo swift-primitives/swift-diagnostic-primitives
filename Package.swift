@@ -1,4 +1,4 @@
-// swift-tools-version: 6.2
+// swift-tools-version: 6.3.1
 
 import PackageDescription
 
@@ -15,10 +15,16 @@ let package = Package(
         .library(
             name: "Diagnostic Primitives",
             targets: ["Diagnostic Primitives"]
-        )
+        ),
+        .library(
+            name: "Diagnostic Primitives Test Support",
+            targets: ["Diagnostic Primitives Test Support"]
+        ),
     ],
     dependencies: [
-        .package(path: "../swift-source-primitives")
+        .package(url: "https://github.com/swift-primitives/swift-source-primitives.git", branch: "main"),
+        // SDG(wraps): diagnostics wrap error concepts for structured reporting
+        // .package(url: "https://github.com/swift-primitives/swift-error-primitives.git", branch: "main"),
     ],
     targets: [
         .target(
@@ -26,18 +32,41 @@ let package = Package(
             dependencies: [
                 .product(name: "Source Primitives", package: "swift-source-primitives")
             ]
-        )
+        ),
+        .target(
+            name: "Diagnostic Primitives Test Support",
+            dependencies: [
+                "Diagnostic Primitives",
+                .product(name: "Source Primitives Test Support", package: "swift-source-primitives"),
+            ],
+            path: "Tests/Support"
+        ),
+        .testTarget(
+            name: "Diagnostic Primitives Tests",
+            dependencies: [
+                "Diagnostic Primitives",
+                "Diagnostic Primitives Test Support",
+            ]
+        ),
     ],
     swiftLanguageModes: [.v6]
 )
 
 for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    let settings: [SwiftSetting] = [
+    let ecosystem: [SwiftSetting] = [
+        .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),
         .enableUpcomingFeature("InternalImportsByDefault"),
         .enableUpcomingFeature("MemberImportVisibility"),
+        .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+        .enableExperimentalFeature("LifetimeDependence"),
         .enableExperimentalFeature("Lifetimes"),
-        .strictMemorySafety()
+        .enableExperimentalFeature("SuppressedAssociatedTypes"),
+        .enableUpcomingFeature("InferIsolatedConformances"),
+        .enableUpcomingFeature("LifetimeDependence"),
     ]
-    target.swiftSettings = (target.swiftSettings ?? []) + settings
+
+    let package: [SwiftSetting] = []
+
+    target.swiftSettings = (target.swiftSettings ?? []) + ecosystem + package
 }
