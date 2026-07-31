@@ -37,7 +37,7 @@ import Diagnostic_Primitives
 let ordered = [Diagnostic.Severity.note, .error, .warning].sorted()
 print(ordered)   // [error, warning, note]
 
-print(Diagnostic.Severity.warning.wireToken)   // "warning"
+print(Diagnostic.Severity.warning.wire.token)   // "warning"
 ```
 
 Records are `Equatable` and `Hashable` (deduplication), `Codable` (serialization to disk or IPC), and `Sendable` — the conformances are derived from the field types, so the same value travels unchanged from the tool that emits it through every layer that reports it.
@@ -71,7 +71,7 @@ Two library products. Depends only on `Source.Location` from `swift-source-primi
 
 | Product | Target | Purpose |
 |---------|--------|---------|
-| `Diagnostic Primitives` | `Sources/Diagnostic Primitives/` | The `Diagnostic` namespace: `Diagnostic.Record` (typed `Source.Location` + `Diagnostic.Severity` + identifier + message, with a `description` rendering) and `Diagnostic.Severity` (`error` / `warning` / `note` / `remark`) with its `wireToken` wire-format mapping. |
+| `Diagnostic Primitives` | `Sources/Diagnostic Primitives/` | The `Diagnostic` namespace: `Diagnostic.Record` (typed `Source.Location` + `Diagnostic.Severity` + identifier + message, with a `description` rendering) and `Diagnostic.Severity` (`error` / `warning` / `note` / `remark`) with its `wire.token` wire-format mapping. |
 | `Diagnostic Primitives Test Support` | `Tests/Support/` | Re-exports the main target (and `Source Primitives Test Support`) for test consumers. |
 
 Foundation-free.

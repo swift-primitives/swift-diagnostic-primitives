@@ -13,10 +13,19 @@ extension Diagnostic {
         case warning
         case note
         case remark
+    }
+}
 
-        /// Orders severities from most to least severe.
-        public static func < (lhs: Self, rhs: Self) -> Bool {
-            lhs.rawValue < rhs.rawValue
-        }
+// MARK: - Comparable
+
+extension Diagnostic.Severity {
+    /// Orders severities from most to least severe.
+    public static func < (lhs: Self, rhs: Self) -> Bool {
+        // swift-linter:disable:next raw value access
+        // REASON: same-type implementation of `Comparable`'s own `<`
+        // requirement — this is the enum's own witness boundary, comparing
+        // its `RawValue: Int` backing rather than a consumer bypassing the
+        // typed-conversion ladder.
+        lhs.rawValue < rhs.rawValue
     }
 }

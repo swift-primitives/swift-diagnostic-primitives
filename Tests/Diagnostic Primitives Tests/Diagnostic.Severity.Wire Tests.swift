@@ -12,38 +12,40 @@
 import Diagnostic_Primitives_Test_Support
 import Testing
 
-extension Diagnostic.Severity {
+extension Diagnostic.Severity.Wire {
     @Suite
-    struct WireTokenTest {
+    struct Test {
         @Suite struct Unit {}
+        @Suite struct `Edge Case` {}
+        @Suite struct Integration {}
     }
 }
 
-extension Diagnostic.Severity.WireTokenTest.Unit {
+extension Diagnostic.Severity.Wire.Test.Unit {
     @Test
-    func `error wireToken is "error"`() {
-        #expect(Diagnostic.Severity.error.wireToken == "error")
+    func `error token is "error"`() {
+        #expect(Diagnostic.Severity.error.wire.token == "error")
     }
 
     @Test
-    func `warning wireToken is "warning"`() {
-        #expect(Diagnostic.Severity.warning.wireToken == "warning")
+    func `warning token is "warning"`() {
+        #expect(Diagnostic.Severity.warning.wire.token == "warning")
     }
 
     @Test
-    func `note wireToken is "note"`() {
-        #expect(Diagnostic.Severity.note.wireToken == "note")
+    func `note token is "note"`() {
+        #expect(Diagnostic.Severity.note.wire.token == "note")
     }
 
     @Test
-    func `remark wireToken is "remark"`() {
-        #expect(Diagnostic.Severity.remark.wireToken == "remark")
+    func `remark token is "remark"`() {
+        #expect(Diagnostic.Severity.remark.wire.token == "remark")
     }
 
     @Test
-    func `wireToken is total over allCases`() {
+    func `token is total over allCases`() {
         for severity in Diagnostic.Severity.allCases {
-            #expect(!severity.wireToken.isEmpty)
+            #expect(!severity.wire.token.isEmpty)
         }
     }
 }

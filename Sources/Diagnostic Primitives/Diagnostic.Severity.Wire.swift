@@ -10,14 +10,31 @@
 // ===----------------------------------------------------------------------===//
 
 extension Diagnostic.Severity {
+    /// Namespace for wire-format representations of this severity.
+    public struct Wire {
+        @usableFromInline
+        let severity: Diagnostic.Severity
+
+        @inlinable
+        package init(_ severity: Diagnostic.Severity) {
+            self.severity = severity
+        }
+    }
+
+    /// Accessor for wire-format representations of this severity.
+    @inlinable
+    public var wire: Wire { Wire(self) }
+}
+
+extension Diagnostic.Severity.Wire {
     /// The canonical wire-format token for this severity.
     ///
-    /// `wireToken` returns the lowercase identifier emitted by reporters
+    /// `token` returns the lowercase identifier emitted by reporters
     /// targeting standard diagnostic wire formats (SARIF, SwiftLint
     /// textual, GCC-style `file:line:col: severity:` lines, LSP
     /// DiagnosticSeverity-as-string variants).
     ///
-    /// | Severity | wireToken |
+    /// | Severity | token |
     /// |----------|-----------|
     /// | `.error` | `"error"` |
     /// | `.warning` | `"warning"` |
@@ -30,14 +47,14 @@ extension Diagnostic.Severity {
     /// vocabulary.
     ///
     /// Note: SARIF defines `"none"` as a level alongside the four tokens
-    /// above; this maps to `.note` in `wireToken` (lossy compression).
+    /// above; this maps to `.note` in `token` (lossy compression).
     /// Consumers needing strict SARIF semantics should map
     /// `.remark → "note"` separately at their boundary; the canonical
-    /// `wireToken` here uses `"remark"` for `.remark` to preserve the
+    /// `token` here uses `"remark"` for `.remark` to preserve the
     /// distinction at the swift-diagnostic-primitives layer.
     @inlinable
-    public var wireToken: Swift.String {
-        switch self {
+    public var token: Swift.String {
+        switch severity {
         case .error: "error"
         case .warning: "warning"
         case .note: "note"
