@@ -1,15 +1,15 @@
-// swift-tools-version: 6.3.3
+// swift-tools-version: 6.4
 
 import PackageDescription
 
 let package = Package(
     name: "swift-diagnostic-primitives",
     platforms: [
-        .macOS("27"),
-        .iOS("27"),
-        .tvOS("27"),
-        .watchOS("27"),
-        .visionOS("27")
+        .macOS(.v27),
+        .iOS(.v27),
+        .tvOS(.v27),
+        .watchOS(.v27),
+        .visionOS(.v27),
     ],
     products: [
         .library(
@@ -22,7 +22,10 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-primitives/swift-source-primitives.git", branch: "main"),
+        .package(
+            url: "https://github.com/swift-primitives/swift-source-primitives.git",
+            branch: "main"
+        )
         // SDG(wraps): diagnostics wrap error concepts for structured reporting
         // .package(url: "https://github.com/swift-primitives/swift-error-primitives.git", branch: "main"),
     ],
@@ -37,7 +40,10 @@ let package = Package(
             name: "Diagnostic Primitives Test Support",
             dependencies: [
                 "Diagnostic Primitives",
-                .product(name: "Source Primitives Test Support", package: "swift-source-primitives"),
+                .product(
+                    name: "Source Primitives Test Support",
+                    package: "swift-source-primitives"
+                ),
             ],
             path: "Tests/Support"
         ),
