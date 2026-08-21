@@ -26,8 +26,7 @@ let package = Package(
             url: "https://github.com/swift-primitives/swift-source-primitives.git",
             branch: "main"
         )
-        // SDG(wraps): diagnostics wrap error concepts for structured reporting
-        // .package(url: "https://github.com/swift-primitives/swift-error-primitives.git", branch: "main"),
+
     ],
     targets: [
         .target(
